@@ -1,4 +1,4 @@
-const crypto    = require('crypto');
+const crypto    = require('crypto')
 const mysql     = require('mysql')
 const db_config = {
     host: '127.0.0.1',
@@ -46,7 +46,6 @@ exports.getTickets = (callback) => {
 
 exports.autoLogin = function(name, passhash, callback)
 {
-    console.log(name, passhash)
     connection.query("SELECT * FROM users WHERE name = " + connection.escape(name), (err, rows) => {
         if(rows.length > 0){
             if(rows[0].passhash == passhash){
@@ -71,7 +70,7 @@ exports.manualLogin = (name, pass, callback) => {
                 }
             })
         } else {
-            callback('user-not-found', null);
+            callback('user-not-found', null)
         }
     })
 }
@@ -89,17 +88,17 @@ var md5 = (str) => {
 
 var generateSalt = function()
 {
-	var set = '0123456789abcdefghijklmnopqurstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ';
-	var salt = '';
+	var set = '0123456789abcdefghijklmnopqurstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ'
+	var salt = ''
 	for (var i = 0; i < 10; i++) {
-		var p = Math.floor(Math.random() * set.length);
-		salt += set[p];
+		var p = Math.floor(Math.random() * set.length)
+		salt += set[p]
 	}
-	return salt;
+	return salt
 }
 
 var saltAndHash = function(pass, callback)
 {
-	var salt = generateSalt();
-	callback(salt + md5(pass + salt));
+	var salt = generateSalt()
+	callback(salt + md5(pass + salt))
 }

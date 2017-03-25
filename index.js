@@ -16,7 +16,9 @@ app.get('/', (req, res) => {
 })
 
 app.get('/check_rights', (req, res) => {
-    checkRights(req, res)
+    checkRights(req.cookies, (data) => {
+        res.status(200).send(data)
+    })
 })
 
 app.post('/login', (req, res) => {
@@ -29,21 +31,25 @@ app.get('/tickets', (req, res) => {
     })
 })
 
+app.post('/new_ticket', (req, res) => {
+    login(req, res)
+})
+
 app.get('/logout', (req, res) => {
     res.clearCookie('name')
     res.clearCookie('passhash')
-    res.redirect('/')
+    res.status(200).send({permissions:0})
 })
 
-function checkRights(req, res) {
-    if(req.cookies.name == undefined || req.cookies.passhash == undefined) {
-        res.status(200).send({permissions:0})
+function checkRights(cookies, callback) {
+    if(cookies.name == undefined || cookies.passhash == undefined) {
+        callback({permissions:0})
     } else {
-        DB.autoLogin(req.cookies.name, req.cookies.passhash, (o) => {
+        DB.autoLogin(cookies.name, cookies.passhash, (o) => {
             if(o != null){
-                res.status(200).send({permissions:o.permissions})
+                callback({permissions:o.permissions})
             } else {
-                res.status(200).send({permissions:0})
+                callback({permissions:0})
             }
         })
     }
@@ -52,7 +58,7 @@ function checkRights(req, res) {
 function login(req, res) {
     DB.manualLogin(req.body.name, req.body.password, (e, o) => {
         if (!o){
-            res.send(e, 400);
+            res.send(e, 400)
         } else {
             res.cookie('name', o.name, { maxAge: 30*60*1000 })
             res.cookie('passhash', o.passhash, { maxAge: 30*60*1000 })

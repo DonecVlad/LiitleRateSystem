@@ -3,7 +3,6 @@ $(function(){
     const fields = ["title", "solution", "rate"]
     
     let helpers = {
-        
         getRights:function(callback){
             $.get("/check_rights", function(data) {
                 callback(null, data)
@@ -49,8 +48,8 @@ $(function(){
         },
         
         showStar:function(star, rate){
-            var callback = function(rating) { alert(rating); };
-            var myRating = rating(star, rate, 5, callback);
+            var callback = function(rating) { alert(rating) }
+            var myRating = rating(star, rate, 5, callback)
         },
         
         checkRights:function(err, data){
@@ -59,6 +58,7 @@ $(function(){
                 helpers.getTickets(function(err, tickets){
                     if(err) throw err
                         helpers.fillTable(table, tickets)
+                        $(".login").hide()
                         $(".tickets").show()
                         $(".logout").show()
                 })
@@ -66,10 +66,14 @@ $(function(){
                 helpers.getTickets(function(err, tickets){
                     if(err) throw err
                         helpers.fillTable(table, tickets)
+                        $(".login").hide()
                         $(".tickets").show()
+                        $(".logout").show()
                 })
             } else {
-                $(".login").show();
+                $(".login").show()
+                $(".tickets").hide()
+                $(".logout").hide()
             }
         }
     }
@@ -80,8 +84,6 @@ $(function(){
     
     $(".loginForm").on('click', '#enter', function(){
         $.post("/login", {name:$("#name").val(), password:$("#password").val()}, function(data){
-            $(".login").hide()
-            
             helpers.checkRights(null, data)
         })
         .fail(function(){
@@ -90,6 +92,8 @@ $(function(){
     })
     
     $("body").on("click", ".logout", function(){
-        $.get("/logout", function(){})
+        $.get("/logout", function(data){
+            helpers.checkRights(null, data)
+        })
     })
 })
