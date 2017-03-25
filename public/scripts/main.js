@@ -34,7 +34,7 @@ $(function(){
                             class:"c-rating"
                         })
                         tr.append(starElement)
-                        helpers.showStar(starElement[0], ticket[field])
+                        helpers.showStar(starElement[0], ticket.id, ticket[field])
                     } else {
                         tr.append($("<td>", {
                             text: ticket[field],
@@ -47,9 +47,19 @@ $(function(){
             })
         },
         
-        showStar:function(star, rate){
-            var callback = function(rating) { alert(rating) }
-            var myRating = rating(star, rate, 5, callback)
+        showStar:function(star, id, rate){
+            var myRating = rating(star, rate, 5, function(rating){
+                helpers.setRating(rating, id)
+            })
+        },
+        
+        setRating:function(rating, id){
+            $.post("/set_rating", {ticket:id, rating:rating}, function(data) {
+                console.info("Оценка поставдена", data)
+            })
+            .fail(function(err) {
+                alert("У вас нет возможности ставить оценки")
+            })
         },
         
         checkRights:function(err, data){
@@ -61,6 +71,7 @@ $(function(){
                         $(".login").hide()
                         $(".tickets").show()
                         $(".logout").show()
+                        $(".plus").show()
                 })
             } else if(data.permissions == 2) {
                 helpers.getTickets(function(err, tickets){

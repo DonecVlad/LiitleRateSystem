@@ -9,6 +9,7 @@ const db_config = {
 }
 
 let connection
+const fields = ["title", "solution", "rate"]
 
 function handleDisconnect() {
     connection = mysql.createConnection(db_config)
@@ -39,6 +40,13 @@ handleDisconnect()
 
 exports.getTickets = (callback) => {
     connection.query('SELECT * FROM tickets ORDER BY id', (err, rows) => {
+        if(err) throw err
+        callback(rows)
+    })
+}
+
+exports.updateTicket = (field, val, id, callback) => {
+    connection.query("UPDATE tickets SET " + fields[field] + " = ? WHERE id = ?", [val, id], (err, rows) => {
         if(err) throw err
         callback(rows)
     })

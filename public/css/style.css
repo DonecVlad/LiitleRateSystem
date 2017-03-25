@@ -117,7 +117,7 @@ td {
 
 .plus {
     float: right;
-    display: block;
+    display: none;
     width: 51px;
     height: 50px;
 }

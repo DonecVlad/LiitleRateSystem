@@ -35,6 +35,18 @@ app.post('/new_ticket', (req, res) => {
     login(req, res)
 })
 
+app.post('/set_rating', (req, res) => {
+    checkRights(req.cookies, (data) => {
+        if(data.permissions == 2){
+            DB.updateTicket(2, req.body.rating, req.body.ticket, () => {
+                res.status(200).send("Rate setted")
+            })
+        } else {
+            res.status(400).send("Go away!")
+        }
+    })
+})
+
 app.get('/logout', (req, res) => {
     res.clearCookie('name')
     res.clearCookie('passhash')
