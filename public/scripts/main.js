@@ -1,6 +1,7 @@
 $(function(){
     let table = $("table")
     const fields = ["title", "solution", "rate"]
+    const fieldsTitle = ["Проблема", "Решение", "Рейтинг"]
     
     let helpers = {
         getRights:function(callback){
@@ -65,9 +66,9 @@ $(function(){
             $(table).children().empty()
             
             let head = $("<tr>")
-            head.append($("<th>", { text: "Проблема" }))
-            head.append($("<th>", { text: "Решение" }))
-            head.append($("<th>", { text: "Оценка" }))
+            fieldsTitle.forEach(function(title){
+                head.append($("<th>", { text: title }))
+            })
             
             $(table).children().append(head)
             
