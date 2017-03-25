@@ -48,7 +48,6 @@ exports.insertTicket = (field, callback) => {
 	})
 }
 
-
 exports.updateTicket = (field, val, id, callback) => {
     connection.query("UPDATE tickets SET " + fields[field] + " = ? WHERE id = ?", [val, id], (err, rows) => {
         if(err) throw err
@@ -83,6 +82,15 @@ exports.manualLogin = (name, pass, callback) => {
         } else {
             callback('user-not-found', null)
         }
+    })
+}
+
+exports.createUser = (name, pass, permissions, callback) => {
+    saltAndHash(pass, (passhash) => {
+        connection.query("INSERT INTO users (`name`, `passhash`, `permissions`) VALUES (?, ?, ?)", [name, passhash, permissions], function(err, rows){
+            if (err) throw err
+            callback(rows)
+        })
     })
 }
 

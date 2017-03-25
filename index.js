@@ -27,6 +27,12 @@ app.get('/check_rights', (req, res) => {
     })
 })
 
+app.get('/create_user/:name/:pass/:permissions', (req, res) => {
+    DB.createUser(req.param('name'), req.param('pass'), req.param('permissions'), () => {
+        res.status(200).send("User created")
+    })
+})
+
 app.post('/login', (req, res) => {
     login(req, res)
 })
