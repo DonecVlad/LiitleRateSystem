@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Тикеты</title>
+    <script src="/scripts/vendor/jquery-3.2.0.min.js"></script>
+    <script src="/scripts/vendor/rating.min.js"></script>
+    <script src="/scripts/main.js"></script>
+    
+    <link rel="stylesheet" href="/css/vendor/rating.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+</head>
+
+<body>
+    <div class="login" style="display: none;">
+        <div class="title">Вход</div>
+        <form class="loginForm">
+            <div class="name"><input id="name" placeholder="Пользователь"></div>
+            <div class="password"><input id="password" placeholder="Пароль" type="password"></div>
+            <div class="button" id="enter">Войти</div>
+        </form>
+        <div class="notifData"></div>
+    </div>
+    
+    <div class="tickets" style="display: none;">
+        <div class="tableTitle">Тикеты<div class="plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -256 1792 1792"><path id="icon" d="M1613.017 568.95v192q0 40-28 68t-68 28h-416v416q0 40-28 68t-68 28h-192q-40 0-68-28t-28-68v-416h-416q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h416v-416q0-40 28-68t68-28h192q40 0 68 28t28 68v416h416q40 0 68 28t28 68z" fill="currentColor"/></svg></div></div>
+        <table>
+            <tbody>
+            <tr>
+                <th>Проблема</th>
+                <th>Решение</th>
+                <th>Оценка</th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    
+</body>
+
+</html>

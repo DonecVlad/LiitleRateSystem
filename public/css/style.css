@@ -1,0 +1,123 @@
+body {
+    font: .8em Arial,sans-serif;
+    background-color: #e6eaf5;
+}
+
+.login {
+    margin: 0 auto;
+    width: 310px;
+}
+
+.login > .title {
+    padding-top: 30px;
+    text-align: center;
+    font-size: 36px;
+    color: #2d5d85;
+}
+
+.login > .loginForm {
+    text-align: center;
+    padding-bottom: 25px;
+}
+
+.login > form {
+    height: 80px;
+    width: 100%;
+}
+
+input {
+    padding: 10px 8px;
+    margin-top: 6px;
+    width: 260px;
+    font-size: 16px;
+}
+
+.login > form > .button {
+    background-color: #7898bd;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    height: 30px;
+    line-height: 30px;
+    margin: 10px auto;
+    width: 280px;
+}
+.login > form > .button:hover {
+    opacity: 0.9;
+}
+
+
+.login > .notifData {
+    padding: 70px 0 0 15px;
+    margin-top: 40px;
+}
+
+table {
+    border-spacing: 0;
+}
+
+th {
+    background-color: #c2cfe1;
+    text-align: left;
+    font-size: 12px;
+    padding-left: 30px;
+    height: 30px;
+    line-height: 30px;
+    width: 300px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+td {
+    text-align: left;
+    font-size: 14px;
+    padding-left: 30px;
+    height: 38px;
+    line-height: 50px;
+    width: 300px;
+    color: #9ea8b3;
+    border-bottom: 1px solid #e2e8f6;
+}
+
+
+.tickets {
+    width: 880px;
+    min-height: 130px;
+    background-color: #fff;
+    border-radius: 5px;
+    margin: 20px auto;
+}
+
+.tableTitle {
+    border-radius: 3px 0 0 0;
+    background-color: #c1abf1;
+    font-size: 21px;
+    color: #fff;
+    height: 50px;
+    line-height: 50px;
+    font-weight: normal;
+    padding-left: 30px;
+}
+
+.plus {
+    float: right;
+    display: block;
+    width: 51px;
+    height: 50px;
+}
+
+.plus:hover {
+    background-color: #b8a2e5;
+    cursor: pointer;
+}
+
+svg {
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 30px;
+}
+
+#icon {
+    fill: white;
+}
