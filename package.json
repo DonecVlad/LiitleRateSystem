@@ -1,0 +1,22 @@
+{
+  "name": "testcase",
+  "version": "0.0.1",
+  "description": "Little rate system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/DonecVlad/LiitleRateSystem.git"
+  },
+  "author": "Vladislav Donets",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DonecVlad/LiitleRateSystem/issues"
+  },
+  "homepage": "https://github.com/DonecVlad/LiitleRateSystem#readme",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}
