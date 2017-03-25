@@ -39,9 +39,16 @@ app.get('/tickets', (req, res) => {
 
 app.post('/new_ticket', (req, res) => {
     checkRights(req.cookies, (data) => {
-        //data.permissions
-    
-    
+        let insert = false
+        permissions[data.permissions].forEach((canDo) => {
+            if(canDo == parseInt(req.body.reason) && canDo == 0){
+                DB.insertTicket(canDo, (data) => {
+                    res.status(200).send({id:data.insertId})
+                })
+                insert = true
+            }
+        })
+        if(!insert) res.status(400).send("Go away!")
     })
 })
 

@@ -41,6 +41,14 @@ exports.getTickets = (callback) => {
     })
 }
 
+exports.insertTicket = (field, callback) => {
+ 	connection.query("INSERT INTO " + fields[field] + " (`title`, `solution`, `rate`) VALUES ('', '', 0)", function(err, rows){
+		if (err) throw err
+		callback(rows)
+	})
+}
+
+
 exports.updateTicket = (field, val, id, callback) => {
     connection.query("UPDATE tickets SET " + fields[field] + " = ? WHERE id = ?", [val, id], (err, rows) => {
         if(err) throw err

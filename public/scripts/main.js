@@ -12,6 +12,46 @@ $(function(){
             })
         },
         
+        newTicket:function(){
+            $.post("/new_ticket", {reason:0}, function(data) {
+                helpers.addRow({"title":"", "solution":"", "rate":0, "id":data.id})
+            })
+            .fail(function(err) {
+                alert("У вас нет возможности создавать тикеты")
+            })
+        },
+        
+        addRow:function(ticket){
+            let tr = $("<tr>", {
+                'data-id':ticket.id
+            })
+            
+            fields.forEach(function(field){
+                if(field == "rate"){
+                    let starElement = $("<td>", {
+                        id:field,
+                        class:"c-rating"
+                    })
+                    tr.append(starElement)
+                    helpers.showStar(starElement[0], ticket.id, ticket[field])
+                } else {
+                    let td = $("<td>", {
+                        id:field
+                    })
+                    td.append($("<div>", {
+                        id:"edit",
+                        text: ticket[field]
+                    }))
+                    td.append($("<span>", {
+                        class:"edit"
+                    }))
+                    tr.append(td)
+                }
+            })
+            
+            $(table).children().append(tr)
+        },
+        
         getTickets:function(callback){
             $.get("/tickets", function(data) {
                 callback(null, data)
@@ -23,27 +63,7 @@ $(function(){
         
         fillTable:function(table, data){
             data.forEach(function(ticket){
-                let tr = $("<tr>", {
-                    'data-id':ticket.id
-                })
-                
-                fields.forEach(function(field){
-                    if(field == "rate"){
-                        let starElement = $("<td>", {
-                            id:field,
-                            class:"c-rating"
-                        })
-                        tr.append(starElement)
-                        helpers.showStar(starElement[0], ticket.id, ticket[field])
-                    } else {
-                        tr.append($("<td>", {
-                            text: ticket[field],
-                            id:field
-                        }))
-                    }
-                })
-                
-                $(table).children().append(tr)
+                helpers.addRow(ticket)
             })
         },
         
@@ -59,6 +79,15 @@ $(function(){
             })
             .fail(function(err) {
                 alert("У вас нет возможности ставить оценки")
+            })
+        },
+        
+        updateText:function(val, id, reason){
+            $.post("/update_ticket", {ticket:id, val:val, reason:reason}, function(data) {
+                console.info("Текст изменён", data)
+            })
+            .fail(function(err) {
+                alert("У вас нет возможности изменять текст")
             })
         },
         
@@ -102,9 +131,48 @@ $(function(){
         })
     })
     
+    $(".tickets").on('click', '.plus', function(){
+        helpers.newTicket()
+    })
+
+    $(".tickets").on('click', '.edit', function(){
+        if($(this).hasClass("active")){
+            $(this).removeClass("active")
+            
+            let ticket = $(this).parent().parent().data("id")
+            let field  = $(this).parent().attr("id")
+            let textElement = $(this).parent().children("#edit")
+            
+            let div = $("<div>", {
+                type : 'text',
+                id   :"edit",
+                text: textElement.val()
+            })
+            
+            textElement.replaceWith(div)
+            
+            helpers.updateText(textElement.val(), ticket, field == "title" ? 1 : 2)
+        } else {
+            $(this).addClass("active")
+            
+            let ticket = $(this).parent().parent().data("id")
+            let field  = $(this).parent().attr("id")
+            let textElement = $(this).parent().children("#edit")
+            
+            let input = $("<input>", {
+                type : 'text',
+                id   :"edit",
+                value: textElement.text()
+            })
+            
+            textElement.replaceWith(input)
+        }
+    })
+    
     $("body").on("click", ".logout", function(){
         $.get("/logout", function(data){
             helpers.checkRights(null, data)
         })
     })
+    
 })

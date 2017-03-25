@@ -40,13 +40,6 @@ body {
     cursor: pointer;
 }
 
-input {
-    padding: 10px 8px;
-    margin-top: 6px;
-    width: 260px;
-    font-size: 16px;
-}
-
 .login > form > .button {
     background-color: #7898bd;
     border-radius: 3px;
@@ -58,10 +51,29 @@ input {
     margin: 10px auto;
     width: 280px;
 }
+
 .login > form > .button:hover {
     opacity: 0.9;
 }
 
+input#name, input#password {
+    padding: 10px 8px;
+    margin-top: 6px;
+    width: 260px;
+    font-size: 16px;
+}
+
+
+#title > input, #solution > input {
+    padding: 4px 5px;
+    margin-top: 0px;
+    width: 210px;
+    font-size: 14px;
+}
+
+#edit {
+    width: 210px;
+}
 
 .login > .notifData {
     padding: 70px 0 0 15px;
@@ -95,13 +107,37 @@ td {
     border-bottom: 1px solid #e2e8f6;
 }
 
+td > div {
+    float: left;
+}
+
+.edit {
+    display: block;
+    text-indent: -9999px;
+    width: 17px;
+    height: 17px;
+    margin-top: 15px;
+    float: right;
+    opacity: 0.3;
+    background: url(/css/vendor/pen.svg);
+    background-size: 17px;
+    cursor: pointer;
+}
+
+.edit:hover {
+   opacity: 1;
+}
+
+.active {
+   opacity: 1;
+}
 
 .tickets {
     width: 880px;
     min-height: 130px;
     background-color: #fff;
     border-radius: 5px;
-    margin: 20px auto;
+    margin: 50px auto;
 }
 
 .tableTitle {
