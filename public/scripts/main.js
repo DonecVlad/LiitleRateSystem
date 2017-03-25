@@ -54,8 +54,8 @@ $(function(){
         },
         
         setRating:function(rating, id){
-            $.post("/set_rating", {ticket:id, rating:rating}, function(data) {
-                console.info("Оценка поставдена", data)
+            $.post("/update_ticket", {ticket:id, val:rating, reason:3}, function(data) {
+                console.info("Оценка выставлена", data)
             })
             .fail(function(err) {
                 alert("У вас нет возможности ставить оценки")

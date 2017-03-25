@@ -9,7 +9,7 @@ const db_config = {
 }
 
 let connection
-const fields = ["title", "solution", "rate"]
+const fields = ["tickets", "title", "solution", "rate"]
 
 function handleDisconnect() {
     connection = mysql.createConnection(db_config)
@@ -19,14 +19,10 @@ function handleDisconnect() {
             setTimeout(handleDisconnect, 2000)
         } else {
             console.log('DB Connected!')
-            
-            /*saltAndHash("tool46", function(hash){
-                console.log("Hash", hash)
-            })*/
         }
     })
     
-    connection.on('error', function(err) {
+    connection.on('error', (err) => {
         console.log('db error', err)
         if(err.code === 'PROTOCOL_CONNECTION_LOST') {
             handleDisconnect()
@@ -52,8 +48,7 @@ exports.updateTicket = (field, val, id, callback) => {
     })
 }
 
-exports.autoLogin = function(name, passhash, callback)
-{
+exports.autoLogin = (name, passhash, callback) => {
     connection.query("SELECT * FROM users WHERE name = " + connection.escape(name), (err, rows) => {
         if(rows.length > 0){
             if(rows[0].passhash == passhash){
@@ -94,8 +89,7 @@ var md5 = (str) => {
     return crypto.createHash('md5').update(str).digest('hex')
 }
 
-var generateSalt = function()
-{
+var generateSalt = () => {
 	var set = '0123456789abcdefghijklmnopqurstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ'
 	var salt = ''
 	for (var i = 0; i < 10; i++) {
@@ -105,8 +99,7 @@ var generateSalt = function()
 	return salt
 }
 
-var saltAndHash = function(pass, callback)
-{
+var saltAndHash = (pass, callback) => {
 	var salt = generateSalt()
 	callback(salt + md5(pass + salt))
 }

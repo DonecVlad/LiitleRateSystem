@@ -5,6 +5,12 @@ const bodyParser   = require('body-parser')
 const cookieParser = require('cookie-parser')
 const DB           = require('./db')
 
+const permissions = [
+    [],
+    [0, 1, 2], // Создание тикета, изменение заголовка, изменение решения
+    [3]        // Установка оценки
+]
+
 app.use(bodyParser.urlencoded({extended : true}))
 app.use(cookieParser())
 app.use(express.static(__dirname + '/public'))
@@ -32,18 +38,25 @@ app.get('/tickets', (req, res) => {
 })
 
 app.post('/new_ticket', (req, res) => {
-    login(req, res)
+    checkRights(req.cookies, (data) => {
+        //data.permissions
+    
+    
+    })
 })
 
-app.post('/set_rating', (req, res) => {
+app.post('/update_ticket', (req, res) => {
     checkRights(req.cookies, (data) => {
-        if(data.permissions == 2){
-            DB.updateTicket(2, req.body.rating, req.body.ticket, () => {
-                res.status(200).send("Rate setted")
-            })
-        } else {
-            res.status(400).send("Go away!")
-        }
+        let updated = false
+        permissions[data.permissions].forEach((canDo) => {
+            if(canDo == parseInt(req.body.reason)){
+                DB.updateTicket(canDo, req.body.val, parseInt(req.body.ticket), () => {
+                    res.status(200).send("Updated")
+                })
+                updated = true
+            }
+        })
+        if(!updated) res.status(400).send("Go away!")
     })
 })
 
