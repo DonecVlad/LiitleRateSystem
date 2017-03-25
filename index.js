@@ -29,18 +29,21 @@ app.get('/tickets', (req, res) => {
     })
 })
 
+app.get('/logout', (req, res) => {
+    res.clearCookie('name')
+    res.clearCookie('passhash')
+    res.redirect('/')
+})
+
 function checkRights(req, res) {
-    
-    console.log(req.cookies)
-    
     if(req.cookies.name == undefined || req.cookies.passhash == undefined) {
-        res.status(200).send("0")
+        res.status(200).send({permissions:0})
     } else {
         DB.autoLogin(req.cookies.name, req.cookies.passhash, (o) => {
             if(o != null){
-                res.status(200).send(o.permissions)
+                res.status(200).send({permissions:o.permissions})
             } else {
-                res.status(200).send("0")
+                res.status(200).send({permissions:0})
             }
         })
     }
@@ -51,9 +54,9 @@ function login(req, res) {
         if (!o){
             res.send(e, 400);
         } else {
-            res.cookie('name', o.name, { maxAge: 900000 })
-            res.cookie('passhash', o.passhash, { maxAge: 900000 })
-            res.status(200).send(null)
+            res.cookie('name', o.name, { maxAge: 30*60*1000 })
+            res.cookie('passhash', o.passhash, { maxAge: 30*60*1000 })
+            res.status(200).send({permissions:o.permissions})
         }
     })
 }

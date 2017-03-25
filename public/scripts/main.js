@@ -1,13 +1,10 @@
 $(function(){
     let table = $("table")
     const fields = ["title", "solution", "rate"]
-
-
-
-
+    
     let helpers = {
         
-        checkRights:function(callback){
+        getRights:function(callback){
             $.get("/check_rights", function(data) {
                 callback(null, data)
             })
@@ -54,44 +51,45 @@ $(function(){
         showStar:function(star, rate){
             var callback = function(rating) { alert(rating); };
             var myRating = rating(star, rate, 5, callback);
+        },
+        
+        checkRights:function(err, data){
+            if(err) throw err
+            if(data.permissions == 1){
+                helpers.getTickets(function(err, tickets){
+                    if(err) throw err
+                        helpers.fillTable(table, tickets)
+                        $(".tickets").show()
+                        $(".logout").show()
+                })
+            } else if(data.permissions == 2) {
+                helpers.getTickets(function(err, tickets){
+                    if(err) throw err
+                        helpers.fillTable(table, tickets)
+                        $(".tickets").show()
+                })
+            } else {
+                $(".login").show();
+            }
         }
     }
-
-
     
-    helpers.checkRights(function(err, permissions){
-        if(err) throw err
-        if(permissions == 1){
-            helpers.getTickets(function(err, tickets){
-                if(err) throw err
-                    helpers.fillTable(table, tickets)
-                    $(".tickets").show()
-            })
-        } else if(permissions == 2) {
-            helpers.getTickets(function(err, tickets){
-                if(err) throw err
-                    helpers.fillTable(table, tickets)
-                    $(".tickets").show()
-            })
-        } else {
-            $(".login").show();
-        }
+    helpers.getRights(function(err, data){
+        helpers.checkRights(err, data)
     })
     
     $(".loginForm").on('click', '#enter', function(){
-        $.post("/login", {name:$("#name").val(), password:$("#password").val()}, function(){
+        $.post("/login", {name:$("#name").val(), password:$("#password").val()}, function(data){
             $(".login").hide()
             
-            helpers.getTickets(function(err, tickets){
-                if(err) throw err
-                    helpers.fillTable(table, tickets)
-                    $(".tickets").show()
-            })
+            helpers.checkRights(null, data)
         })
         .fail(function(){
             $(".notifData").empty().append("Ошибка! Данные введены неправильно")
         })
     })
     
-
+    $("body").on("click", ".logout", function(){
+        $.get("/logout", function(){})
+    })
 })
