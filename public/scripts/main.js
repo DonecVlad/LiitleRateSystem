@@ -108,6 +108,7 @@ $(function(){
                         helpers.fillTable(table, tickets)
                         $(".login").hide()
                         $(".tickets").show()
+                        $(".edit").hide()
                         $(".logout").show()
                 })
             } else {

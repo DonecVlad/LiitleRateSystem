@@ -96,7 +96,7 @@ function checkRights(cookies, callback) {
 function login(req, res) {
     DB.manualLogin(req.body.name, req.body.password, (e, o) => {
         if (!o){
-            res.send(e, 400)
+            res.status(400).send({permissions:0})
         } else {
             res.cookie('name', o.name, { maxAge: 30*60*1000 })
             res.cookie('passhash', o.passhash, { maxAge: 30*60*1000 })

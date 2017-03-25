@@ -42,7 +42,7 @@ exports.getTickets = (callback) => {
 }
 
 exports.insertTicket = (field, callback) => {
- 	connection.query("INSERT INTO " + fields[field] + " (`title`, `solution`, `rate`) VALUES ('', '', 0)", function(err, rows){
+ 	connection.query("INSERT INTO " + fields[field] + " (`title`, `solution`, `rate`) VALUES ('', '', 0)", (err, rows) => {
 		if (err) throw err
 		callback(rows)
 	})
@@ -87,7 +87,7 @@ exports.manualLogin = (name, pass, callback) => {
 
 exports.createUser = (name, pass, permissions, callback) => {
     saltAndHash(pass, (passhash) => {
-        connection.query("INSERT INTO users (`name`, `passhash`, `permissions`) VALUES (?, ?, ?)", [name, passhash, permissions], function(err, rows){
+        connection.query("INSERT INTO users (`name`, `passhash`, `permissions`) VALUES (?, ?, ?)", [name, passhash, permissions], (err, rows) => {
             if (err) throw err
             callback(rows)
         })
