@@ -62,6 +62,15 @@ $(function(){
         },
         
         fillTable:function(table, data){
+            $(table).children().empty()
+            
+            let head = $("<tr>")
+            head.append($("<th>", { text: "Проблема" }))
+            head.append($("<th>", { text: "Решение" }))
+            head.append($("<th>", { text: "Оценка" }))
+            
+            $(table).children().append(head)
+            
             data.forEach(function(ticket){
                 helpers.addRow(ticket)
             })
