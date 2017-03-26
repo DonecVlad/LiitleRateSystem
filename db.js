@@ -9,7 +9,7 @@ const db_config = {
 }
 
 let connection
-const fields = ["tickets", "title", "solution", "rate"]
+const fields = ['tickets', 'title', 'solution', 'rate']
 
 function handleDisconnect() {
     connection = mysql.createConnection(db_config)

@@ -1,11 +1,11 @@
 $(function(){
-    let table = $("table")
-    const fields = ["title", "solution", "rate"]
-    const fieldsTitle = ["Проблема", "Решение", "Рейтинг"]
+    let table = $('table')
+    const fields = ['title', 'solution', 'rate']
+    const fieldsTitle = ['Проблема', 'Решение', 'Рейтинг']
     
     let helpers = {
         getRights:function(callback){
-            $.get("/check_rights", function(data) {
+            $.get('/check_rights', function(data) {
                 callback(null, data)
             })
             .fail(function(err) {
@@ -14,37 +14,37 @@ $(function(){
         },
         
         newTicket:function(){
-            $.post("/new_ticket", {reason:0}, function(data) {
-                helpers.addRow({"title":"", "solution":"", "rate":0, "id":data.id})
+            $.post('/new_ticket', {reason:0}, function(data) {
+                helpers.addRow({'title':'', 'solution':'', 'rate':0, 'id':data.id})
             })
             .fail(function(err) {
-                alert("У вас нет возможности создавать тикеты")
+                alert('У вас нет возможности создавать тикеты')
             })
         },
         
         addRow:function(ticket){
-            let tr = $("<tr>", {
+            let tr = $('<tr>', {
                 'data-id':ticket.id
             })
             
             fields.forEach(function(field){
-                if(field == "rate"){
-                    let starElement = $("<td>", {
+                if(field == 'rate'){
+                    let starElement = $('<td>', {
                         id:field,
-                        class:"c-rating"
+                        class:'c-rating'
                     })
                     tr.append(starElement)
                     helpers.showStar(starElement[0], ticket.id, ticket[field])
                 } else {
-                    let td = $("<td>", {
+                    let td = $('<td>', {
                         id:field
                     })
-                    td.append($("<div>", {
-                        id:"edit",
+                    td.append($('<div>', {
+                        id:'edit',
                         text: ticket[field]
                     }))
-                    td.append($("<span>", {
-                        class:"edit"
+                    td.append($('<span>', {
+                        class:'edit'
                     }))
                     tr.append(td)
                 }
@@ -54,7 +54,7 @@ $(function(){
         },
         
         getTickets:function(callback){
-            $.get("/tickets", function(data) {
+            $.get('/tickets', function(data) {
                 callback(null, data)
             })
             .fail(function(err) {
@@ -65,9 +65,9 @@ $(function(){
         fillTable:function(table, data){
             $(table).children().empty()
             
-            let head = $("<tr>")
+            let head = $('<tr>')
             fieldsTitle.forEach(function(title){
-                head.append($("<th>", { text: title }))
+                head.append($('<th>', { text: title }))
             })
             
             $(table).children().append(head)
@@ -84,20 +84,20 @@ $(function(){
         },
         
         setRating:function(rating, id){
-            $.post("/update_ticket", {ticket:id, val:rating, reason:3}, function(data) {
-                console.info("Оценка выставлена", data)
+            $.post('/update_ticket', {ticket:id, val:rating, reason:3}, function(data) {
+                console.info('Оценка выставлена', data)
             })
             .fail(function(err) {
-                alert("У вас нет возможности ставить оценки")
+                alert('У вас нет возможности ставить оценки')
             })
         },
         
         updateText:function(val, id, reason){
-            $.post("/update_ticket", {ticket:id, val:val, reason:reason}, function(data) {
-                console.info("Текст изменён", data)
+            $.post('/update_ticket', {ticket:id, val:val, reason:reason}, function(data) {
+                console.info('Текст изменён', data)
             })
             .fail(function(err) {
-                alert("У вас нет возможности изменять текст")
+                alert('У вас нет возможности изменять текст')
             })
         },
         
@@ -107,24 +107,24 @@ $(function(){
                 helpers.getTickets(function(err, tickets){
                     if(err) throw err
                         helpers.fillTable(table, tickets)
-                        $(".login").hide()
-                        $(".tickets").show()
-                        $(".logout").show()
-                        $(".plus").show()
+                        $('.login').hide()
+                        $('.tickets').show()
+                        $('.logout').show()
+                        $('.plus').show()
                 })
             } else if(data.permissions == 2) {
                 helpers.getTickets(function(err, tickets){
                     if(err) throw err
                         helpers.fillTable(table, tickets)
-                        $(".login").hide()
-                        $(".tickets").show()
-                        $(".edit").hide()
-                        $(".logout").show()
+                        $('.login').hide()
+                        $('.tickets').show()
+                        $('.edit').hide()
+                        $('.logout').show()
                 })
             } else {
-                $(".login").show()
-                $(".tickets").hide()
-                $(".logout").hide()
+                $('.login').show()
+                $('.tickets').hide()
+                $('.logout').hide()
             }
         }
     }
@@ -133,46 +133,46 @@ $(function(){
         helpers.checkRights(err, data)
     })
     
-    $(".loginForm").on('click', '#enter', function(){
-        $.post("/login", {name:$("#name").val(), password:$("#password").val()}, function(data){
+    $('.loginForm').on('click', '#enter', function(){
+        $.post('/login', {name:$('#name').val(), password:$('#password').val()}, function(data){
             helpers.checkRights(null, data)
         })
         .fail(function(){
-            $(".notifData").empty().append("Ошибка! Данные введены неправильно")
+            $('.notifData').empty().append('Ошибка! Данные введены неправильно')
         })
     })
     
-    $(".tickets").on('click', '.plus', function(){
+    $('.tickets').on('click', '.plus', function(){
         helpers.newTicket()
     })
 
-    $(".tickets").on('click', '.edit', function(){
-        if($(this).hasClass("active")){
-            $(this).removeClass("active")
+    $('.tickets').on('click', '.edit', function(){
+        if($(this).hasClass('active')){
+            $(this).removeClass('active')
             
-            let ticket = $(this).parent().parent().data("id")
-            let field  = $(this).parent().attr("id")
-            let textElement = $(this).parent().children("#edit")
+            let ticket = $(this).parent().parent().data('id')
+            let field  = $(this).parent().attr('id')
+            let textElement = $(this).parent().children('#edit')
             
-            let div = $("<div>", {
+            let div = $('<div>', {
                 type : 'text',
-                id   :"edit",
+                id   :'edit',
                 text: textElement.val()
             })
             
             textElement.replaceWith(div)
             
-            helpers.updateText(textElement.val(), ticket, field == "title" ? 1 : 2)
+            helpers.updateText(textElement.val(), ticket, field == 'title' ? 1 : 2)
         } else {
-            $(this).addClass("active")
+            $(this).addClass('active')
             
-            let ticket = $(this).parent().parent().data("id")
-            let field  = $(this).parent().attr("id")
-            let textElement = $(this).parent().children("#edit")
+            let ticket = $(this).parent().parent().data('id')
+            let field  = $(this).parent().attr('id')
+            let textElement = $(this).parent().children('#edit')
             
-            let input = $("<input>", {
+            let input = $('<input>', {
                 type : 'text',
-                id   :"edit",
+                id   :'edit',
                 value: textElement.text()
             })
             
@@ -180,8 +180,8 @@ $(function(){
         }
     })
     
-    $("body").on("click", ".logout", function(){
-        $.get("/logout", function(data){
+    $('body').on('click', '.logout', function(){
+        $.get('/logout', function(data){
             helpers.checkRights(null, data)
         })
     })

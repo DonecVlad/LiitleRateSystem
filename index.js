@@ -29,7 +29,7 @@ app.get('/check_rights', (req, res) => {
 
 app.get('/create_user/:name/:pass/:permissions', (req, res) => {
     DB.createUser(req.param('name'), req.param('pass'), req.param('permissions'), () => {
-        res.status(200).send("User created")
+        res.status(200).send('User created')
     })
 })
 
@@ -54,7 +54,7 @@ app.post('/new_ticket', (req, res) => {
                 insert = true
             }
         })
-        if(!insert) res.status(400).send("Go away!")
+        if(!insert) res.status(400).send('Go away!')
     })
 })
 
@@ -64,12 +64,12 @@ app.post('/update_ticket', (req, res) => {
         permissions[data.permissions].forEach((canDo) => {
             if(canDo == parseInt(req.body.reason)){
                 DB.updateTicket(canDo, req.body.val, parseInt(req.body.ticket), () => {
-                    res.status(200).send("Updated")
+                    res.status(200).send('Updated')
                 })
                 updated = true
             }
         })
-        if(!updated) res.status(400).send("Go away!")
+        if(!updated) res.status(400).send('Go away!')
     })
 })
 
